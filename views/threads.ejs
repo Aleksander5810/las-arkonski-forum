@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Forum Las Arkoński</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <h1>Forum Las Arkoński</h1>
+  <% if (user) { %>
+    <p>Zalogowany jako <%= user %> | <a href="/users/logout">Wyloguj</a></p>
+    <form method="POST" action="/threads/new">
+      <input name="title" placeholder="Tytuł" required><br>
+      <textarea name="content" placeholder="Treść" required></textarea><br>
+      <input name="tag" placeholder="Tag (np. flora)"><br>
+      <button>Dodaj wątek</button>
+    </form>
+  <% } else { %>
+    <form method="POST" action="/users/login">
+      <input name="username" placeholder="Login"><br>
+      <input name="password" type="password" placeholder="Hasło"><br>
+      <button>Zaloguj</button>
+    </form>
+    <form method="POST" action="/users/register">
+      <input name="username" placeholder="Nowy login"><br>
+      <input name="password" type="password" placeholder="Hasło"><br>
+      <button>Załóż konto</button>
+    </form>
+  <% } %>
+
+  <h2>Wątki</h2>
+  <% threads.forEach(t => { %>
+    <div class="thread">
+      <h3><%= t.title %> (<%= t.tag %>)</h3>
+      <p><%= t.content %></p>
+      <small>Autor: <%= t.author %>, <%= t.createdAt.toDateString() %></small>
+    </div>
+  <% }) %>
+</body>
+</html>
